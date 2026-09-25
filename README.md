@@ -67,14 +67,3 @@ jupyter notebook 01_insurance_log_linear_regression.ipynb
 ## 📌 Conclusión
 
 En escala logarítmica el modelo se ajusta razonablemente bien, pero al retransformar a dólares se observa **subestimación sistemática en los costos altos**, atribuible al **sesgo de retransformación** (Jensen's inequality: `E[exp(x)] ≠ exp(E[x])`).
-
-## 💡 Sugerencias de mejora
-
-- **Corregir el sesgo de retransformación** aplicando el factor de suavizado de Duan (*Duan's smearing estimator*) o, alternativamente, usar `TransformedTargetRegressor` de scikit-learn, que maneja la transformación/inversa de forma más prolija.
-- **Feature engineering**: probar términos de interacción como `bmi * smoker` (el efecto del BMI sobre el costo suele ser mucho mayor en fumadores) y una variable de `bmi` categorizada (obesidad).
-- **Modelos alternativos**: comparar contra Gradient Boosting / Random Forest, que suelen capturar mejor las no-linealidades y colas pesadas de `charges` sin necesitar transformación logarítmica.
-- **Validación cruzada** (`cross_val_score` o `KFold`) en lugar de un único train/test split, para una estimación más robusta de R² y RMSE.
-- **Revisar residuales**: un gráfico de residuales vs. predichos ayudaría a confirmar si el error se concentra en el grupo de fumadores o de alto BMI.
-- **Guardar el modelo** entrenado (`joblib.dump`) y separar el notebook en módulos (`data_prep.py`, `train.py`, `evaluate.py`) si el proyecto va a crecer.
-- **requirements.txt**: fijar versiones de las librerías usadas para reproducibilidad.
-- Agregar una sección de **límites del modelo** (p. ej. no generaliza a rangos de edad/BMI fuera del dataset).
